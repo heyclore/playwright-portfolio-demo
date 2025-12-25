@@ -1,7 +1,7 @@
 //pages/navigationMenu.ts
 import { Page } from '@playwright/test';
 
-export class NavigationMenu {
+class NavigationComponents {
   constructor(protected page: Page) {}
 
   get homeButton(){
@@ -10,6 +10,21 @@ export class NavigationMenu {
 
   get docsButton(){
     return this.page.locator('a[href="/docs/intro"]', { hasText: 'Docs' });
+  }
+}
+
+export class NavigationMenu extends NavigationComponents {
+  private _nav: NavigationMenu | undefined;
+
+  constructor(protected page: Page) {
+      super(page);
+  }
+
+  get nav(): NavigationMenu {
+    if (!this._nav) {
+      this._nav = new NavigationMenu(this.page);
+    }
+    return this._nav;
   }
 }
 
