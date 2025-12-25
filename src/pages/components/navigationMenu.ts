@@ -1,7 +1,8 @@
 //pages/navigationMenu.ts
+import { Page } from '@playwright/test';
 
 export class NavigationMenu {
-  constructor(private page: Page) {}
+  constructor(protected page: Page) {}
 
   get homeButton(){
     return this.page.locator('a.navbar__brand');
