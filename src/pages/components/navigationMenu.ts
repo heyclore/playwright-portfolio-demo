@@ -24,17 +24,35 @@ class NavigationComponents {
   }
 }
 
-export class NavigationMenu extends NavigationComponents {
-  private _nav: NavigationMenu | undefined;
+class SearchComponents {
+  constructor(protected page: Page) {}
 
-  constructor(protected page: Page) {
-    super(page);
+  get searchButton() {
+    return this.page.getByRole("button", { name: "Search (Ctrl+K)" });
   }
 
-  get nav(): NavigationMenu {
+  get searchInput() {
+    return this.page.getByRole("searchbox", { name: "Search" });
+  }
+}
+
+export class TopBar {
+  private _nav: NavigationComponents | undefined;
+  private _search: SearchComponents | undefined;
+
+  constructor(protected page: Page) {}
+
+  get nav(): NavigationComponents {
     if (!this._nav) {
-      this._nav = new NavigationMenu(this.page);
+      this._nav = new NavigationComponents(this.page);
     }
     return this._nav;
+  }
+
+  get search(): SearchComponents {
+    if (!this._search) {
+      this._search = new SearchComponents(this.page);
+    }
+    return this._search;
   }
 }
