@@ -1,4 +1,3 @@
-//pages/navigationMenu.ts
 import { Page } from '@playwright/test';
 
 class NavigationComponents {
@@ -10,6 +9,14 @@ class NavigationComponents {
 
   get docsButton(){
     return this.page.locator('a[href="/docs/intro"]', { hasText: 'Docs' });
+  }
+
+  get apiButton(){
+    return this.page.locator('a[href="/docs/api/class-playwright"]', { hasText: 'API' });
+  }
+
+  get communityButton(){
+    return this.page.locator('a[href="/community/welcome"]', { hasText: 'Community' });
   }
 }
 

@@ -1,12 +1,14 @@
-//fixtures/fixture.ts
 import { test as base } from '@playwright/test';
-import { createLazyFixture } from '../utils/lazyPageObject';
-import { HomePage } from '../pages/homepage/homePage.ts';
-import { DocsPage } from '../pages/docspage/docsPage.ts';
+import { HomePage } from '../pages/homepage/homePage';
+import { DocsPage } from '../pages/docspage/docsPage';
+import { ApiPage } from '../pages/api/apiPage';
+import { CommunityPage } from '../pages/community/communityPage';
 
 type MyFixtures = {
   homePage: HomePage;
   docsPage: DocsPage;
+  apiPage: ApiPage;
+  communityPage: CommunityPage;
 };
 
 // Define fixtures for loginPage and dashboardPage
@@ -16,6 +18,12 @@ export const test = base.extend<MyFixtures>({
   },
   docsPage: async({ page }, use) => {
     await use(new DocsPage(page));
+  },
+  apiPage: async({ page }, use) => {
+    await use(new ApiPage(page));
+  },
+  communityPage: async({ page }, use) => {
+    await use(new CommunityPage(page));
   }
 });
 

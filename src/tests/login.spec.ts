@@ -1,11 +1,18 @@
-//test/login.spec.ts
 import { test, expect } from '../fixtures/fixture';
 
-test('navigations', async ({ page, homePage, docsPage }) => {
+test('navigations menu components', async ({ page, homePage, docsPage, apiPage, communityPage }) => {
   await page.goto('https://playwright.dev/');
+
   await homePage.nav.docsButton.click();
   await expect(page).toHaveTitle(/installation/i);
-  await docsPage.nav.homeButton.click();
+
+  await docsPage.nav.apiButton.click();
+  await expect(page).toHaveTitle(/playwright librabry | playwright/i);
+
+  await apiPage.nav.communityButton.click();
+  await expect(page).toHaveTitle(/welcome | playwright/i);
+
+  await communityPage.nav.homeButton.click();
   await expect(page).toHaveTitle(/fast and reliable/i);
 });
 
