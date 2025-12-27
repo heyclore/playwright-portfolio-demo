@@ -1,7 +1,13 @@
-import { test, expect } from '../fixtures/fixture';
+import { test, expect } from "../fixtures/fixture";
 
-test('navigations menu components', async ({ page, homePage, docsPage, apiPage, communityPage }) => {
-  await page.goto('https://playwright.dev/');
+test("navigations menu components", async ({
+  page,
+  homePage,
+  docsPage,
+  apiPage,
+  communityPage,
+}) => {
+  await page.goto("https://playwright.dev/");
 
   await homePage.nav.docsButton.click();
   await expect(page).toHaveTitle(/installation/i);
@@ -15,4 +21,3 @@ test('navigations menu components', async ({ page, homePage, docsPage, apiPage, 
   await communityPage.nav.homeButton.click();
   await expect(page).toHaveTitle(/fast and reliable/i);
 });
-
