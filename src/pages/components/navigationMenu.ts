@@ -34,6 +34,14 @@ class SearchComponents {
   get searchInput() {
     return this.page.getByRole("searchbox", { name: "Search" });
   }
+
+  get clearIcon() {
+    return this.page.getByRole("button", { name: "Clear the query" });
+  }
+
+  resultLists(index: number) {
+    return this.page.locator(`#docsearch-hits${index}-item-${index}`)
+  }
 }
 
 export class TopBar {
