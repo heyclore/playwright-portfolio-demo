@@ -40,7 +40,17 @@ class SearchComponents {
   }
 
   resultLists(index: number) {
-    return this.page.locator(`#docsearch-hits${index}-item-${index}`)
+    return this.page.locator(`#docsearch-hits${index}-item-${index}`);
+  }
+
+  get recentSearch() {
+    return this.page.locator("#docsearch-recentSearches-item-0");
+  }
+
+  get removeRecentSearch() {
+    return this.page.getByRole("button", {
+      name: "Remove this search from history",
+    });
   }
 }
 

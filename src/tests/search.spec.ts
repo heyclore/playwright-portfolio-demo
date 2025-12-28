@@ -1,6 +1,6 @@
 import { test, expect } from "../fixtures/fixture";
 
-test.describe("Login Feature", () => {
+test.describe("Search modal", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("https://playwright.dev/");
   });
@@ -23,13 +23,25 @@ test.describe("Login Feature", () => {
     await expect(searchInput).toBeHidden();
   });
 
-  test("should clear input when clear icon is clicked", async ({
+  test("should show quick results when a query is entered in search modal", async ({
     homePage,
   }) => {
     await homePage.search.searchButton.click();
-    await homePage.search.searchInput.fill("foo");
+    await homePage.search.searchInput.fill("a");
+    await expect(homePage.search.resultLists(0)).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  });
+
+  test("should clear input when clear icon is clicked", async ({
+    homePage,
+  }) => {
+    const text = "clock";
+    await homePage.search.searchButton.click();
+    await homePage.search.searchInput.fill(text);
     const clearIcon = homePage.search.clearIcon;
-    await expect(homePage.search.searchInput).toHaveValue("foo");
+    await expect(homePage.search.searchInput).toHaveValue(text);
     await expect(clearIcon).toBeVisible();
 
     await clearIcon.click();
@@ -51,5 +63,58 @@ test.describe("Login Feature", () => {
     await page.keyboard.press("ArrowDown");
     await expect(firstResult).toHaveAttribute("aria-selected", "false");
     await expect(secondResult).toHaveAttribute("aria-selected", "true");
+  });
+
+  test("applies search when pressing Enter", async ({ page, homePage }) => {
+    const text = "clock";
+    await homePage.search.searchButton.click();
+    await homePage.search.searchInput.fill(text);
+    await expect(homePage.search.resultLists(0)).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await homePage.search.searchInput.press("Enter");
+    await expect(page).toHaveTitle(/clock/i);
+  });
+
+  test("applies search when clicking a quick result", async ({
+    page,
+    homePage,
+  }) => {
+    const text = "clock";
+    await homePage.search.searchButton.click();
+    await homePage.search.searchInput.fill(text);
+    await expect(homePage.search.resultLists(0)).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await homePage.search.resultLists(0).click();
+    await expect(page).toHaveTitle(/clock/i);
+  });
+
+  test("adds query to recent searches after applying search", async ({
+    homePage,
+  }) => {
+    const text = "clock";
+    await homePage.search.searchButton.click();
+    await homePage.search.searchInput.fill(text);
+    const result = homePage.search.resultLists(0);
+    await expect(result).toHaveAttribute("aria-selected", "true");
+    await result.click();
+    await homePage.search.searchButton.click();
+    await expect(homePage.search.recentSearch).toBeVisible();
+  });
+
+  test("removes a search term from recent searches", async ({ homePage }) => {
+    const text = "clock";
+    await homePage.search.searchButton.click();
+    await homePage.search.searchInput.fill(text);
+    const result = homePage.search.resultLists(0);
+    await expect(result).toHaveAttribute("aria-selected", "true");
+    await result.click();
+    await homePage.search.searchButton.click();
+    await expect(homePage.search.recentSearch).toBeVisible();
+    await homePage.search.removeRecentSearch.click();
+    await expect(homePage.search.recentSearch).toBeHidden();
   });
 });
