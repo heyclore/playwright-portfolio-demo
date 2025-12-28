@@ -4,7 +4,7 @@ import { DocsPage } from "../pages/docspage/docsPage";
 import { ApiPage } from "../pages/api/apiPage";
 import { CommunityPage } from "../pages/community/communityPage";
 
-type MyFixtures = {
+type PageFixture = {
   homePage: HomePage;
   docsPage: DocsPage;
   apiPage: ApiPage;
@@ -12,7 +12,7 @@ type MyFixtures = {
 };
 
 // Define fixtures for loginPage and dashboardPage
-export const test = base.extend<MyFixtures>({
+export const test = base.extend<PageFixture>({
   homePage: async ({ page }, use) => {
     await use(new HomePage(page));
   },
