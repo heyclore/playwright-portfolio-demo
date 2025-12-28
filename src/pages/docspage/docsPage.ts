@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { TopBar } from "../components/navigationMenu";
+import { TopBar } from "../components/topBar";
 
 export class DocsPage extends TopBar {
   constructor(public readonly page: Page) {
