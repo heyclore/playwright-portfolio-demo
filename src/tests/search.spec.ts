@@ -5,13 +5,16 @@ test.describe("Search modal", () => {
     await page.goto("https://playwright.dev/");
   });
 
-  test("open and close search modal popup", async ({ homePage }) => {
+  test("open search modal popup", async ({ homePage }) => {
     await homePage.search.searchButton.click();
     const searchInput = homePage.search.searchInput;
     await expect(searchInput).toBeVisible();
+  });
 
-    await searchInput.press("Escape");
-    await expect(searchInput).toBeHidden();
+  test("open search modal popup with a shortcut key", async ({ homePage }) => {
+    await expect(homePage.search.searchButton).toBeVisible();
+    await homePage.search.searchButton.press("Control+K");
+    await expect(homePage.search.searchInput).toBeVisible();
   });
 
   test("close search modal popup", async ({ homePage }) => {
